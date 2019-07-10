@@ -242,6 +242,179 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/10/my-post/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr meng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fx little world">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/10/my-post/" itemprop="url">单片机中断概念</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-10T10:43:36+08:00">
+                2019-07-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          第 6 章 中断概述
+我们终于学到了51单片机，甚至大多数 CPU 最精彩的部分之一——中断系
+统！我先单独成立本章以介绍中断方面概念性的东西，因为概念一旦明白，后面
+就会学得得心应手。
+中断这一部分你们一定要花心思。一方面，比我们还大的51单片机里的中
+断概念在现在的CPU 里依然留存，说明这种机制是多么经典；另一方面，对于
+初学者，可能比较复杂，但是一旦你按我的步伐走，将来再做一些应用，就觉得
+非常简单了。
+在中断系统的学习过程中，阅 查阅51  单片机的数据手册是必不可少的。事实
+上，以后无论你们学哪方面的技术，数据手册总会是你最值得依赖的伙伴！我在
+附录一里分享了星火培训班的资料下载链接，你可在链接里找到一份名为
+“STC90C51RC-RD 数据手册.pdf”的文件。请好好阅读文件第 6 章至第 8 章内
+容。
+6.1 什么是中断
+中断的概念非常好理解。当CPU 在主函数 main 里执行任务 A 时，突然传
+感器甲发来信号说有件更紧急的事B 需要马上处理一下。无奈，CPU 只能暂时
+停下手头的工作A，先去执行任务 B，想着等 B 处理完后再回来处理 A——这已
+经是一次中断了。
+有时候，CPU 在处理 B 时，突然传感器乙发来信号说：你先别干了，我这
+里有更为紧急的任务C！CPU 虽然心里抱怨，但是无奈，只能暂时放下任务 B，
+转而去执行任务C——这又发生了一次中断。
+等CPU 执行完任务 C 后回到任务 B 未完成的部分继续执行，把任务执行完
+后最终回头干自己喜欢干的活——任务A。
+为了让你形象理解，我还是要举下每次培训都要说到的例子。你把我想成
+CPU，一开始，我在 main 函数里执行给你们讲课的功能（任务 A），讲着讲着，
+还没讲完呢，突然手机响了（传感器甲传来的信号），我一看，咦，神秘人物，
+无奈，我只能暂停讲课，接电话（任务B）！这里发生了一次中断。
+本想着，我一接完电话立马回来给你们讲课，可是在我打电话的时候，突然
+听到有人敲门（传感器乙传来的信号），敲门声是那么的急促，无奈，我只能对
+电话里的神秘人物说：你等等哦，我去开个门。通过猫眼一看，呀，不得了，宗
+凯哥来视察了（第一期是晓静姐）。我赶紧打开门，迎进他老人家，听他嘘寒问
+暖（任务C）。
+听宗凯哥寒喧了几句后（结束任务 C），我继续打电话（返回任务 B），打
+完后（结束任务B），我又回到主函数里给你们讲课（返回任务 A）。
+6.2 中断的种类
+51单片机的中断主要有三类：
+◎  外部中断(External Interrupt)： ：在学习 IO 口“I”的功能，即检测功能时，
+我们通过在 main 函数的 while(1)死循环里反反复复判断相应 IO 口电平状态来实
+现。但是你有没有想过，如果我有100个传感器，是不是就要100个if？由于
+CPU 是串行，即一条指令一条指令往下执行的，如果 CPU 处理速度慢，在判断
+第3个传感器时，第100个起反应了，可是在当执行到第100个if 时，第 100
+个传感器的信号已经消失了——说白了，CPU 脑子反应慢，处理不过来。另外，
+100个if 放在主函数里，啥时候才能执行到除判断以外的更为重要任务？所以，
+我们就想：能不能让传感器接一个特殊的引脚，只要传感器的输出引脚电平一改
+变，CPU 立马触发中断，暂停主函数中更为重要的任务，去处理传感器起反应
+后本应该执行的任务（原来if 里面的语句），从而将软件判断改为硬件强制触
+发呢？这就是外部中断！
+◎  定时器中断(Timer Interrupt)： ：定时器中断就非常好
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/10/my-post/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/01/my-new-post/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -542,134 +715,6 @@ True//
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/31/my-blog/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr meng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fx little world">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/31/my-blog/" itemprop="url">单片机相关电子元件介绍</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-31T11:11:41+08:00">
-                2019-01-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          发光二极管LED    I:3~20mA (电流只能从阳极流向阴极）    U：约1.7V （导通压降）    分类：    直插式：长脚为阳极    贴片式：有标记的一端为阴极    注：不能直接连接于IO口，Vcc=5V,需要连接限流电阻（约1K）,可通过减小        电阻阻值来加强LED亮度。数码管    8位a,b,c,d,e,f,g,dp(小数点)。    共阳连接，共阴连接。        点亮数码管内部的led需要5mA以上的电流，单片机IO口送不出这么大的电流，    所以单片机与数码管连接时需要加驱动电路（可以加上拉电阻或者使用专门的    数码管驱动芯片）。        当多个数码管连接在一起时（多位数码管），它们内部的公共端（位选线）是独立    的，而负责显示什么数字的段选线是连接在一起的，独立的公共端可以控制哪个数码管亮，    段选线负责控制数码管显示什么数字。
-
-
-          
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/01/31/my-blog/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -720,7 +765,7 @@ True//
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
