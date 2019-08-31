@@ -87,9 +87,9 @@
 <meta property="og:description" content="第 6 章 中断概述 我们终于学到了51单片机，甚至大多数 CPU 最精彩的部分之一——中断系 统！我先单独成立本章以介绍中断方面概念性的东西，因为概念一旦明白，后面 就会学得得心应手。 中断这一部分你们一定要花心思。一方面，比我们还大的51单片机里的中 断概念在现在的CPU 里依然留存，说明这种机制是多么经典；另一方面，对于 初学者，可能比较复杂，但是一旦你按我的步伐走，将来再做一些应用，就觉得">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/51引脚图.jpg">
-<meta property="og:image" content="http://yoursite.com/images/IE寄存器.jpg">
-<meta property="og:image" content="http://yoursite.com/images/中断优先级.jpg">
-<meta property="og:updated_time" content="2019-07-10T03:14:02.805Z">
+<meta property="og:image" content="http://yoursite.com/images/IE寄存器.png">
+<meta property="og:image" content="http://yoursite.com/images/中断优先级.png">
+<meta property="og:updated_time" content="2019-07-10T03:19:49.113Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单片机中断概念">
 <meta name="twitter:description" content="第 6 章 中断概述 我们终于学到了51单片机，甚至大多数 CPU 最精彩的部分之一——中断系 统！我先单独成立本章以介绍中断方面概念性的东西，因为概念一旦明白，后面 就会学得得心应手。 中断这一部分你们一定要花心思。一方面，比我们还大的51单片机里的中 断概念在现在的CPU 里依然留存，说明这种机制是多么经典；另一方面，对于 初学者，可能比较复杂，但是一旦你按我的步伐走，将来再做一些应用，就觉得">
@@ -427,7 +427,7 @@
 <p>是整个中断系统的开关，当该位为 1 时，中断系统的总闸被打开；当 EA=1，且</p>
 <p>ES=1 时，串口中断功能被打开。</p>
 <p>寄存器是不是顿时很好理解了？</p>
-<p><img src="/images/IE寄存器.jpg" alt=""></p>
+<p><img src="/images/IE寄存器.png" alt=""></p>
 <p>6.7 中断优先级</p>
 <p>在“中断的相关概念”中，我提到了优先级的问题（如果你还不知道怎么回</p>
 <p>事，赶快回去瞧瞧）。在“51单片机可用中断及相关引脚”中，我已经说明51</p>
@@ -435,7 +435,7 @@
 <p>样的呢？查阅数据手册，我们得到两点信息：</p>
 <p>(1) 默认顺序：在未进行任何关于优先级的设置情况下，51 单片机（52 单</p>
 <p>片机）中断优先级如图6-3 所示。</p>
-<p><img src="/images/中断优先级.jpg" alt=""></p>
+<p><img src="/images/中断优先级.png" alt=""></p>
 <p>图中的“中断向量地址”不用理会，因为这与汇编语言相关，不是本次培训</p>
 <p>的重点。由图可见，优先级最高的是中断是外部中断 0，最低的是外部中断 3（如</p>
 <p>果有，取决于你用的单片机）。</p>
