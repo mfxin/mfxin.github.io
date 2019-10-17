@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="梦想成为技术大佬的小白">
-<meta property="og:type" content="website">
-<meta property="og:title" content="fx little world">
-<meta property="og:url" content="http://yoursite.com/archives/2019/01/index.html">
+<meta name="description" content="51单片机中共有两个16位的可编程定时器/计数器，即T0，T1.52单片机中多了一个T2. 他们既有定时功能，也有计数功能。当定时器的计数器计满后，会产生中断，及通知CPU该 如何处理。 TMOD是定时器/计数器的工作方式寄存器，确定工作方式和功能；TCON是控制寄存器， 控制T0、T1的启动和停止及设置溢出标志。 溢出时计数器的值减去计数初值才是加1计数器的计数值。  设置为定时器模式时：  加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="定时器中断">
+<meta property="og:url" content="http://yoursite.com/2019/07/01/my-new-post/index.html">
 <meta property="og:site_name" content="fx little world">
-<meta property="og:description" content="梦想成为技术大佬的小白">
+<meta property="og:description" content="51单片机中共有两个16位的可编程定时器/计数器，即T0，T1.52单片机中多了一个T2. 他们既有定时功能，也有计数功能。当定时器的计数器计满后，会产生中断，及通知CPU该 如何处理。 TMOD是定时器/计数器的工作方式寄存器，确定工作方式和功能；TCON是控制寄存器， 控制T0、T1的启动和停止及设置溢出标志。 溢出时计数器的值减去计数初值才是加1计数器的计数值。  设置为定时器模式时：  加">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-01T08:53:03.992Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fx little world">
-<meta name="twitter:description" content="梦想成为技术大佬的小白">
+<meta name="twitter:title" content="定时器中断">
+<meta name="twitter:description" content="51单片机中共有两个16位的可编程定时器/计数器，即T0，T1.52单片机中多了一个T2. 他们既有定时功能，也有计数功能。当定时器的计数器计满后，会产生中断，及通知CPU该 如何处理。 TMOD是定时器/计数器的工作方式寄存器，确定工作方式和功能；TCON是控制寄存器， 控制T0、T1的启动和停止及设置溢出标志。 溢出时计数器的值减去计数初值才是加1计数器的计数值。  设置为定时器模式时：  加">
 
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2019/01/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/01/my-new-post/">
 
 
 
 
 
-  <title>归档 | fx little world</title>
+  <title>定时器中断 | fx little world</title>
   
 
 
@@ -143,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -217,72 +218,171 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
-
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        嗯..! 目前共计 5 篇日志。 继续努力。
-      </span>
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
-
-        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/01/my-new-post/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr meng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fx little world">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/01/31/my-blog/" itemprop="url">
-              
-                <span itemprop="name">单片机相关电子元件介绍</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">定时器中断</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-31T11:11:41+08:00" content="2019-01-31">
-          01-31
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-01T16:21:20+08:00">
+                2019-07-01
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
 
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <pre><code>51单片机中共有两个16位的可编程定时器/计数器，即T0，T1.52单片机中多了一个T2.
+</code></pre><p>他们既有定时功能，也有计数功能。当定时器的计数器计满后，会产生中断，及通知CPU该</p>
+<p>如何处理。</p>
+<pre><code>TMOD是定时器/计数器的工作方式寄存器，确定工作方式和功能；TCON是控制寄存器，
+</code></pre><p>控制T0、T1的启动和停止及设置溢出标志。</p>
+<pre><code>溢出时计数器的值减去计数初值才是加1计数器的计数值。
+
+设置为定时器模式时：
+
+加1计数器对内部机器周期计数（1个计数周期为十二个振荡周期
+</code></pre><p>，即计数频率为晶振频率的1/12）.计数值N乘以机器周期T就是定时时间t。</p>
+<pre><code>设置为计数器模式时：
+
+外部事件计数脉冲由T0、T1引脚输入到计数器。在每个机器周期的S5P2期间采样T0、T1
+</code></pre><p>引脚电平。当某周期采样到一高电平输入，下一周期又采样到一低电平输入，则计数器加1.</p>
+<pre><code>定时器的初值：
+
+THX=(65536-N)/256;
+
+TLX=(65536-N)%256;
+
+C51的中断函数格式：
+
+void 函数名() interrupt 中断号
+{
+    中断服务程序内容;
+}
+</code></pre>
+      
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/31/my-blog/" rel="next" title="单片机相关电子元件介绍">
+                <i class="fa fa-chevron-left"></i> 单片机相关电子元件介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/10/my-post/" rel="prev" title="单片机中断概念">
+                单片机中断概念 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -290,6 +390,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -486,6 +590,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
