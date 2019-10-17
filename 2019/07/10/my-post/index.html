@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第 6 章 中断概述 我们终于学到了51单片机，甚至大多数 CPU 最精彩的部分之一——中断系 统！我先单独成立本章以介绍中断方面概念性的东西，因为概念一旦明白，后面 就会学得得心应手。 中断这一部分你们一定要花心思。一方面，比我们还大的51单片机里的中 断概念在现在的CPU 里依然留存，说明这种机制是多么经典；另一方面，对于 初学者，可能比较复杂，但是一旦你按我的步伐走，将来再做一些应用，就觉得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单片机中断概念">
+<meta property="og:url" content="http://yoursite.com/2019/07/10/my-post/index.html">
+<meta property="og:site_name" content="fx little world">
+<meta property="og:description" content="第 6 章 中断概述 我们终于学到了51单片机，甚至大多数 CPU 最精彩的部分之一——中断系 统！我先单独成立本章以介绍中断方面概念性的东西，因为概念一旦明白，后面 就会学得得心应手。 中断这一部分你们一定要花心思。一方面，比我们还大的51单片机里的中 断概念在现在的CPU 里依然留存，说明这种机制是多么经典；另一方面，对于 初学者，可能比较复杂，但是一旦你按我的步伐走，将来再做一些应用，就觉得">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/51引脚图.jpg">
+<meta property="og:image" content="http://yoursite.com/images/IE寄存器.png">
+<meta property="og:image" content="http://yoursite.com/images/中断优先级.png">
+<meta property="og:updated_time" content="2019-07-10T03:19:49.113Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="单片机中断概念">
+<meta name="twitter:description" content="第 6 章 中断概述 我们终于学到了51单片机，甚至大多数 CPU 最精彩的部分之一——中断系 统！我先单独成立本章以介绍中断方面概念性的东西，因为概念一旦明白，后面 就会学得得心应手。 中断这一部分你们一定要花心思。一方面，比我们还大的51单片机里的中 断概念在现在的CPU 里依然留存，说明这种机制是多么经典；另一方面，对于 初学者，可能比较复杂，但是一旦你按我的步伐走，将来再做一些应用，就觉得">
+<meta name="twitter:image" content="http://yoursite.com/images/51引脚图.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/10/my-post/">
+
+
+
+
+
+  <title>单片机中断概念 | fx little world</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">fx little world</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">越努力，越幸运！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/10/my-post/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr meng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fx little world">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">单片机中断概念</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-10T10:43:36+08:00">
+                2019-07-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>第 6 章 中断概述</p>
+<pre><code>我们终于学到了51单片机，甚至大多数 CPU 最精彩的部分之一——中断系
+</code></pre><p>统！我先单独成立本章以介绍中断方面概念性的东西，因为概念一旦明白，后面</p>
+<p>就会学得得心应手。</p>
+<p>中断这一部分你们一定要花心思。一方面，比我们还大的51单片机里的中</p>
+<p>断概念在现在的CPU 里依然留存，说明这种机制是多么经典；另一方面，对于</p>
+<p>初学者，可能比较复杂，但是一旦你按我的步伐走，将来再做一些应用，就觉得</p>
+<p>非常简单了。</p>
+<p>在中断系统的学习过程中，阅 查阅51  单片机的数据手册是必不可少的。事实</p>
+<p>上，以后无论你们学哪方面的技术，数据手册总会是你最值得依赖的伙伴！我在</p>
+<p>附录一里分享了星火培训班的资料下载链接，你可在链接里找到一份名为</p>
+<p>“STC90C51RC-RD 数据手册.pdf”的文件。请好好阅读文件第 6 章至第 8 章内</p>
+<p>容。</p>
+<p>6.1 什么是中断</p>
+<p>中断的概念非常好理解。当CPU 在主函数 main 里执行任务 A 时，突然传</p>
+<p>感器甲发来信号说有件更紧急的事B 需要马上处理一下。无奈，CPU 只能暂时</p>
+<p>停下手头的工作A，先去执行任务 B，想着等 B 处理完后再回来处理 A——这已</p>
+<p>经是一次中断了。</p>
+<p>有时候，CPU 在处理 B 时，突然传感器乙发来信号说：你先别干了，我这</p>
+<p>里有更为紧急的任务C！CPU 虽然心里抱怨，但是无奈，只能暂时放下任务 B，</p>
+<p>转而去执行任务C——这又发生了一次中断。</p>
+<p>等CPU 执行完任务 C 后回到任务 B 未完成的部分继续执行，把任务执行完</p>
+<p>后最终回头干自己喜欢干的活——任务A。</p>
+<p>为了让你形象理解，我还是要举下每次培训都要说到的例子。你把我想成</p>
+<p>CPU，一开始，我在 main 函数里执行给你们讲课的功能（任务 A），讲着讲着，</p>
+<p>还没讲完呢，突然手机响了（传感器甲传来的信号），我一看，咦，神秘人物，</p>
+<p>无奈，我只能暂停讲课，接电话（任务B）！这里发生了一次中断。</p>
+<p>本想着，我一接完电话立马回来给你们讲课，可是在我打电话的时候，突然</p>
+<p>听到有人敲门（传感器乙传来的信号），敲门声是那么的急促，无奈，我只能对</p>
+<p>电话里的神秘人物说：你等等哦，我去开个门。通过猫眼一看，呀，不得了，宗</p>
+<p>凯哥来视察了（第一期是晓静姐）。我赶紧打开门，迎进他老人家，听他嘘寒问</p>
+<p>暖（任务C）。</p>
+<p>听宗凯哥寒喧了几句后（结束任务 C），我继续打电话（返回任务 B），打</p>
+<p>完后（结束任务B），我又回到主函数里给你们讲课（返回任务 A）。</p>
+<p>6.2 中断的种类</p>
+<p>51单片机的中断主要有三类：</p>
+<p>◎  外部中断(External Interrupt)： ：在学习 IO 口“I”的功能，即检测功能时，</p>
+<p>我们通过在 main 函数的 while(1)死循环里反反复复判断相应 IO 口电平状态来实</p>
+<p>现。但是你有没有想过，如果我有100个传感器，是不是就要100个if？由于</p>
+<p>CPU 是串行，即一条指令一条指令往下执行的，如果 CPU 处理速度慢，在判断</p>
+<p>第3个传感器时，第100个起反应了，可是在当执行到第100个if 时，第 100</p>
+<p>个传感器的信号已经消失了——说白了，CPU 脑子反应慢，处理不过来。另外，</p>
+<p>100个if 放在主函数里，啥时候才能执行到除判断以外的更为重要任务？所以，</p>
+<p>我们就想：能不能让传感器接一个特殊的引脚，只要传感器的输出引脚电平一改</p>
+<p>变，CPU 立马触发中断，暂停主函数中更为重要的任务，去处理传感器起反应</p>
+<p>后本应该执行的任务（原来if 里面的语句），从而将软件判断改为硬件强制触</p>
+<p>发呢？这就是外部中断！</p>
+<p>◎  定时器中断(Timer Interrupt)： ：定时器中断就非常好理解了：每隔一段</p>
+<p>时间让CPU 停下主函数的任务，去执行我们希望它定时执行的任务。举个例子，</p>
+<p>我是个机器人爱好者，有时候需要测量机器人的轮速，通过一种名为编码器的传</p>
+<p>感器，我可以得到车轮转过的圈数，如果我再加一个定时器，每隔一个固定的时</p>
+<p>间段获取一次圈数，用圈数除以这个固定的时间段，不就得到了机器人车轮的转</p>
+<p>速了吗？</p>
+<p>◎  串口中断(Serial Interrupt)： ：串口是芯片与芯片之间交流的通道。所谓“交</p>
+<p>流”，无非指芯片与芯片之间相互发送数据或者指令。当发送端发送后，可以触</p>
+<p>发中断，执行我们希望它发送后执行的任务，比如输出个“发送成功”；同理，</p>
+<p>当接收端接收到数据或指令后，我们也可以让它触发中断执行某些任务，比如判</p>
+<p>断一下接收到的是啥，然后执行相应操作。事实上，很多时候我们不需要通过中</p>
+<p>断的方式实现串口通信，具体见第9章。</p>
+<p>6.3 为什么要有中断</p>
+<p>上一节介绍中断种类时，我已经捎带着说明了中断的作用。想必你已经明白</p>
+<p>了个大概吧？</p>
+<p>如果你还迷糊，没事，我再以“外部中断”为例子给你说明一下。我也说了，</p>
+<p>中断的概念至今犹存，你们用的电脑中就有许多中断。怎么不是？键盘与鼠标的</p>
+<p>本质是传感器吧，先放下鼠标不说，光键盘就有将近 100 个键，还有各种按键的</p>
+<p>组合，比如我写论文时最喜欢的“Ctrl+C”与“Ctrl+V”，这样排列组合下来，</p>
+<p>如果不用外部中断，得写多少个 if？虽然电脑 CPU 处理速度很快，但是if 一多，</p>
+<p>那也招架不住呀，况且还有更重要的任务，如播放视频要执行呢，那得卡成 PPT？</p>
+<p>6.4 中断的相关概念</p>
+<p>我先给几个关于中断的概念，你可能一时半会理解不过来，不虚——后面结</p>
+<p>合应用，慢慢就理解了。</p>
+<p>◎  中断源：很好理解，就是引起中断的东西。对于外部中断来说，中断源</p>
+<p>就是那些五花八门的传感器；对于定时器中断，中断源是内部的程序；对于串口</p>
+<p>中断，中断源当然是其它芯片传来的数据或指令了。</p>
+<p>◎  中断服务子程序： ：前面我们一直说 CPU 发生中断后去执行更为紧急的任</p>
+<p>务，你可能很疑惑：在哪里执行？就是在中断服务子程序里执行的。后面我们会</p>
+<p>单独写一个与你之前接触过的函数不太一样的函数专门作为中断触发后执行的</p>
+<p>任务。</p>
+<p>◎  中断嵌套：在解释什么是中断时，我其实已经提到了中断嵌套这个问题</p>
+<p>——暂停任务A 转而执行任务 B 时，收到更为紧急的任务 C，这里第二级中断</p>
+<p>就嵌套在第一级里。也许你会问：那是不是在执行一个中断服务子程序时又一个</p>
+<p>中断被触发了，就一定要停下这个中断去执行新的中断服务子程序？当然不是</p>
+<p>啦，凡是还有个等级优先嘛——这不，我之前不是一直强调“更为紧急”？这说</p>
+<p>明中断之间还有个“优先级”呢！</p>
+<p>6.5 51 单片机可用中断及相关引脚</p>
+<p>我们用的这款51单片机，有2个外部中断（INT0、INT1），2 个定时器中</p>
+<p>断（Timer0 与 Timer1）与 1 个串口中断（uart）。52 单片机（本质还是 8051 内</p>
+<p>核）与51单片机不仅在内存上有差异，还多了一个定时器（Timer2）。</p>
+<p>现在，我们又来看一下51单片机的引脚图，如图6-1 所示。</p>
+<p><img src="/images/51引脚图.jpg" alt=""></p>
+<p>把视线集中在P0 组 IO 口。你会发现，这组 IO 口不仅可以做为正常的 IO</p>
+<p>口使用，似乎还可以用于别的功能。你瞧，P3.0 与 P3.1 是不是还附带着 RxD 与</p>
+<p>TxD？这些是与串口通信相关的引脚。同样，P3.2、P3.3 是与外部中断相关的引</p>
+<p>脚。P3.4、P3.5 是与定时器相关的引脚。至于每个引脚具体怎么与相应的中断相</p>
+<p>关？不急，后面我会一一道来！</p>
+<p>6.6 初识寄存器</p>
+<p>我们写51单片机程序时，上来一句就是“#include &lt;reg51.h&gt;”。之前我说</p>
+<p>过这是与51单片机相关的头文件。你可能会疑惑：reg51.h中的51，我知道是指</p>
+<p>51单片机，.h是头文件英文headerfile的首字母，那reg是啥呢？reg其实是register</p>
+<p>缩写，在中文里美其名曰“寄存器”。开发keil的人把51单片机最核心的头文</p>
+<p>件都以“寄存器”来命名，可见寄存器是有多重要呀！</p>
+<p>寄存器的英文名是“register”，百度一查，发现它的中文意思是“注册，登</p>
+<p>记”。通俗地理解，我们要使用51单片机中某个功能，是不是得告诉单片机：</p>
+<p>我需要用你某某功能，具体怎么怎么用，某某参数是某值……那好，在哪里告诉</p>
+<p>51单片机这些信息呢？当然是的相关的寄存器“登记”或“注册”了。喜欢打</p>
+<p>破砂锅问到底的你也许会问：为什么翻译成“寄存器”？我想，可能是在设置时</p>
+<p>候，某些参数暂时“寄存”在寄存器里吧。</p>
+<p>知道了寄存器是干什么的，可是我们还是难以想象寄存器的真容——没事，</p>
+<p>我们是做应用的，而不做CPU 底层电路的设计，所以我们只需要知道寄存器的</p>
+<p>本质是一种电路结构，同样可以理解为一个一个的开关。图 6-2 给出了中断系统</p>
+<p>中的IE 寄存器，其中 B 是 Bit 的首字母，每一个 Bit 均负责一种功能，如：B7:EA</p>
+<p>是整个中断系统的开关，当该位为 1 时，中断系统的总闸被打开；当 EA=1，且</p>
+<p>ES=1 时，串口中断功能被打开。</p>
+<p>寄存器是不是顿时很好理解了？</p>
+<p><img src="/images/IE寄存器.png" alt=""></p>
+<p>6.7 中断优先级</p>
+<p>在“中断的相关概念”中，我提到了优先级的问题（如果你还不知道怎么回</p>
+<p>事，赶快回去瞧瞧）。在“51单片机可用中断及相关引脚”中，我已经说明51</p>
+<p>单片机所拥有的中断资源。那么一个问题来了：这么多中断，它们的优先级是怎</p>
+<p>样的呢？查阅数据手册，我们得到两点信息：</p>
+<p>(1) 默认顺序：在未进行任何关于优先级的设置情况下，51 单片机（52 单</p>
+<p>片机）中断优先级如图6-3 所示。</p>
+<p><img src="/images/中断优先级.png" alt=""></p>
+<p>图中的“中断向量地址”不用理会，因为这与汇编语言相关，不是本次培训</p>
+<p>的重点。由图可见，优先级最高的是中断是外部中断 0，最低的是外部中断 3（如</p>
+<p>果有，取决于你用的单片机）。</p>
+<p>(2) 可以通过设置寄存器改变中断系统的优先级。在本次培训中，我们基本</p>
+<p>不设置中断优先级，但是你在真正做应用的时候往往会涉及这方面，此时一定要</p>
+<p>好好查阅数据手册。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/31/my-blog/" rel="next" title="单片机相关电子元件介绍">
+                <i class="fa fa-chevron-left"></i> 单片机相关电子元件介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/17/hello-world/" rel="prev" title="HELLO MAN">
+                HELLO MAN <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Mr meng</p>
+              <p class="site-description motion-element" itemprop="description">梦想成为技术大佬的小白</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr meng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
