@@ -28,7 +28,7 @@
 <meta property="og:description" content="Background&ensp;&ensp;&ensp;&ensp;为了更方便地连接测试平台与DUT，sv提供了接口的方法。相对于Verilog端口的例化方式，接口大大简化了代码量，降低了编写错误的概率。可以简单的将接口理解为很多信号的集合，将很多信号线绑定成一捆粗的线缆。在接口内部，可以实现信号的同步，解决了DUT与测试平台的信号竞争问题，也可以实现各种通信协议，大大简化了DUT与测试平台之间的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-30T02:07:21.000Z">
-<meta property="article:modified_time" content="2025-08-30T14:00:15.270Z">
+<meta property="article:modified_time" content="2025-08-30T23:43:12.026Z">
 <meta property="article:author" content="Fanxin Meng">
 <meta property="article:tag" content="IC Verify">
 <meta name="twitter:card" content="summary">
@@ -173,10 +173,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2025-08-30 10:07:21 / 修改时间：22:00:15" itemprop="dateCreated datePublished" datetime="2025-08-30T10:07:21+08:00">2025-08-30</time>
+              <time title="创建时间：2025-08-30 10:07:21" itemprop="dateCreated datePublished" datetime="2025-08-30T10:07:21+08:00">2025-08-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-08-31 07:43:12" itemprop="dateModified" datetime="2025-08-31T07:43:12+08:00">2025-08-31</time>
+              </span>
 
           
 
@@ -192,7 +198,7 @@
         <h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><p>&ensp;&ensp;&ensp;&ensp;为了更方便地连接测试平台与DUT，sv提供了接口的方法。相对于Verilog端口的例化方式，接口大大简化了代码量，降低了编写错误的概率。可以简单的将接口理解为很多信号的集合，将很多信号线绑定成一捆粗的线缆。在接口内部，可以实现信号的同步，解决了DUT与测试平台的信号竞争问题，也可以实现各种通信协议，大大简化了DUT与测试平台之间的通信。</p>
 <span id="more"></span>
 
-<h4 id="How-to-define-use"><a href="#How-to-define-use" class="headerlink" title="How to define &amp; use"></a>How to define &amp; use</h4><p>&ensp;&ensp;&ensp;&ensp;创建一个接口采用如下方式。时钟可以作为接口的端口信号，也可以作为接口内部的信号；接口内部的信号建议定义为logic，方便信号的驱动，但是针对inout类型的信号，只能定义为wire类型。</p>
+<h4 id="How-to-define-use"><a href="#How-to-define-use" class="headerlink" title="How to define &amp; use"></a>How to define &amp; use</h4><p>&ensp;&ensp;&ensp;&ensp;创建一个接口采用如下方式。时钟可以作为接口的端口信号，也可以作为接口内部的信号；接口内部的信号建议定义为logic，方便信号的驱动，但是针对inout类型的信号，只能定义为wire类型。接口应该定义在模块外部，若定义在模块内部，接口为该模块的局部变量，其他模块无法例化。</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> busif(<span class="keyword">input</span> <span class="keyword">bit</span> clk);</span><br><span class="line">    <span class="keyword">logic</span>         rst_n;</span><br><span class="line">    <span class="keyword">logic</span> [<span class="number">15</span>:<span class="number">0</span>]  data_i;</span><br><span class="line">    <span class="keyword">wire</span>          dq_io;</span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">endinterface</span>:busif</span><br></pre></td></tr></table></figure>
 
 <p>&ensp;&ensp;&ensp;&ensp;接口的使用也很简单，只需要在需要用接口的组件首部对接口进行声明，组件内部采用层次化的方式即可使用接口内部的信号，例如：</p>
