@@ -170,7 +170,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2025-09-03 19:10:09 / 修改时间：21:12:44" itemprop="dateCreated datePublished" datetime="2025-09-03T19:10:09+08:00">2025-09-03</time>
+              <time title="创建时间：2025-09-03 19:10:09 / 修改时间：21:14:31" itemprop="dateCreated datePublished" datetime="2025-09-03T19:10:09+08:00">2025-09-03</time>
             </span>
 
           
@@ -185,49 +185,14 @@
 
       
           <h3 id="background"><a href="#background" class="headerlink" title="background"></a>background</h3><p>&ensp;&ensp;面向对象编程（OOP, Object Oriented Programming）是一种以“对象”为基本单元的编程范式，它将程序看作是现实世界事物的抽象模型，通过类、对象、封装、继承和多态等概念来组织代码，从而实现更接近自然运行模式的系统建模和开发。这种编程范式相对面向过程编程，通过将相关数据和函数捆绑到对象中，提高了代码的可重用性、可维护性和灵活性。</p>
-<h3 id="OOP术语"><a href="#OOP术语" class="headerlink" title="OOP术语"></a>OOP术语</h3><p>（1）类（Class）</p>
-<p>&ensp;&ensp;类是对象的模板或蓝图，定义了对象的属性（数据）和方法（行为）。</p>
-<p>&ensp;&ensp;类 ≈ 模板，对象 ≈ 模板生成的实例。</p>
-<p>（2）对象（Object）</p>
-<p>&ensp;&ensp;类的实例化产物，是真实存在的个体。</p>
-<p>&ensp;&ensp;每个对象都有自己的一份属性值。</p>
-<p>（3）封装（Encapsulation）</p>
-<p>&ensp;&ensp;将数据和操作数据的方法绑定在一起，隐藏内部细节，只对外暴露必要接口。</p>
-<p>&ensp;&ensp;好处：保证安全性，提高模块化。</p>
-<p>（4）继承（Inheritance）</p>
-<p>&ensp;&ensp;一个类可以基于已有的类进行扩展，获得父类的属性和方法。避免重复代码，实现代码复用。</p>
-<p>（5）多态（Polymorphism）</p>
-<p>&ensp;&ensp;同一接口，不同实现。让子类可以覆盖父类的方法，或者不同对象以相同方式调用但行为不同。</p>
-<h3 id="class"><a href="#class" class="headerlink" title="class"></a>class</h3><p>&ensp;&ensp;下面示例了SV中class的定义、继承、实例化，以及虚方法的override、多态等用法：</p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> base;</span><br><span class="line">    <span class="keyword">logic</span> [<span class="number">3</span>:<span class="number">0</span>] num;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">virtual</span> <span class="keyword">function</span> <span class="keyword">void</span> show(<span class="keyword">string</span> name);</span><br><span class="line">        <span class="built_in">$display</span>(<span class="string">&quot;[base] %s.num = %d&quot;</span>, name, num);</span><br><span class="line">    <span class="keyword">endfunction</span></span><br><span class="line"><span class="keyword">endclass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> child <span class="keyword">extends</span> base;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">function</span> <span class="keyword">void</span> show(<span class="keyword">string</span> name);</span><br><span class="line">        <span class="built_in">$display</span>(<span class="string">&quot;[child] %s.num = %d&quot;</span>, name, num);</span><br><span class="line">    <span class="keyword">endfunction</span></span><br><span class="line"><span class="keyword">endclass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> tb;</span><br><span class="line">    base    b;</span><br><span class="line">    child   c, c1;</span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        b       = <span class="keyword">new</span>();</span><br><span class="line">        c       = <span class="keyword">new</span>();</span><br><span class="line">        c1      = <span class="keyword">new</span>();</span><br><span class="line">        b<span class="variable">.num</span>   = <span class="number">5</span>;</span><br><span class="line">        c<span class="variable">.num</span>   = <span class="number">6</span>;</span><br><span class="line">        c1<span class="variable">.num</span>  = <span class="number">7</span>;</span><br><span class="line">        b<span class="variable">.show</span>(<span class="string">&quot;b&quot;</span>);</span><br><span class="line">        c<span class="variable">.show</span>(<span class="string">&quot;c&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">$cast</span>(c,b))</span><br><span class="line">            <span class="built_in">$display</span>(<span class="string">&quot;cast success&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">$display</span>(<span class="string">&quot;cast fail&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">$cast</span>(b,c))<span class="keyword">begin</span></span><br><span class="line">            <span class="built_in">$display</span>(<span class="string">&quot;cast success&quot;</span>);</span><br><span class="line">            b<span class="variable">.show</span>(<span class="string">&quot;b&quot;</span>);</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">$display</span>(<span class="string">&quot;cast fail&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">$cast</span>(c1,c))</span><br><span class="line">            <span class="built_in">$display</span>(<span class="string">&quot;cast success&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">$display</span>(<span class="string">&quot;cast fail&quot;</span>);     </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vcs result:</span><br><span class="line">[base] b.num =  5</span><br><span class="line">[child] c.num =  6</span><br><span class="line">cast fail</span><br><span class="line">cast success</span><br><span class="line">[child] b.num =  6</span><br><span class="line">cast success</span><br></pre></td></tr></table></figure>
-
-
-<h4 id="NOTE-related-virtual-class"><a href="#NOTE-related-virtual-class" class="headerlink" title="NOTE related virtual class"></a>NOTE related virtual class</h4><p>&ensp;&ensp;在callback一节中，提及过抽象类的用法，在此再一次标注一下：</p>
-<ol>
-<li>virtual class不能直接实例化，需要在抽象类的基础上派生子类，对子类进行实例化；</li>
-<li>virtual class中若存在pure virtual function，派生类需实现所有的纯虚方法才可实例化；</li>
-<li>pure virtual function只能定义在virtual class中，但是virtual class中可以声明各种function.</li>
-</ol>
-<h3 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h3><p>&ensp;&ensp;使用<code>extends</code>关键字，创建子类。子类中可以对父类的虚方法进行覆盖（绿皮书白皮书中将override翻译为重载，个人觉得还是要区分重载overload、覆盖override、重写overwrite，虽然这是在c++中才会严格区分的几个类相关的概念），具体的子类定义前面的code示例中已经给出。</p>
-<p>&ensp;&ensp;子类中包含父类中所有的成员变量及方法，子类中用<code>this、super</code>区分子类和父类的同名成员变量。可以理解为子类是父类的补充。父类是子类的子集。</p>
-<h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><p>&ensp;&ensp;向上类型转换和向下类型转换，对于“向上”和“向下”不同的地方可能有不同的定义，在此处相对于对象类型来定义向上类型转换和向下类型转化：</p>
-<ol>
-<li>子类对象赋值给父类句柄，称为向上类型转换；</li>
-<li>父类对象赋值给子类句柄，称为向下类型转换。</li>
-</ol>
-<h4 id="向上类型转换（upcasting）"><a href="#向上类型转换（upcasting）" class="headerlink" title="向上类型转换（upcasting）"></a>向上类型转换（upcasting）</h4><p>&ensp;&ensp;upcasting是安全的，这个很好理解，子类成员对于父类成员，父类是子类的子集，因此用父类句柄能够调用的方法子类中都有，不存在方法找不到的情况，因此upcasting是安全的。代码中可以直接用如下方式来实现向上类型转换。</p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">p = c;</span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"><span class="built_in">$cast</span>(p,c);</span><br></pre></td></tr></table></figure>
-<h4 id="向下类型转换（downcasting）"><a href="#向下类型转换（downcasting）" class="headerlink" title="向下类型转换（downcasting）"></a>向下类型转换（downcasting）</h4><p>&ensp;&ensp;downcasting是不安全的，这个也很好理解，与upcasting相反，若用子类句柄指向父类对象，子类句柄可能调用子类中存在而父类中不存在的成员，这就导致父类对象无法执行，因此downcasting是不安全的。</p>
-<h4 id="NOTE-related-cast-p-c"><a href="#NOTE-related-cast-p-c" class="headerlink" title="NOTE related $cast(p, c)"></a>NOTE related <code>$cast(p, c)</code></h4><p>&ensp;&ensp;<code>$cast(p, c)</code>指的是用p句柄指向c的对象。cast转换会检查两个条件：</p>
-<ol>
-<li><p>检查句柄：c是否为p的派生类，或者具有派生关系，即c是p的子类，或者子类的子类（孙子类）都可以；</p>
-</li>
-<li><p>检查对象类型：p, c指向的对象的类型是否相同，如果前文中已经完成了p,c的向上类型转换，那么p指向的对象类型与c指向的对象类型相同（甚至是同一个对象），则也可以完成转换；</p>
-<p>两个条件满足其一，$cast返回1，否则转换失败返回0.</p>
-</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/09/03/SV-NOTE05-OOP/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
