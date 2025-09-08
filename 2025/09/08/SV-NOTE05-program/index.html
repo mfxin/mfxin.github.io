@@ -20,28 +20,32 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="芯领神会">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="NOTE： Avoid program block Ensure you have a wait at the end of initial-block (inside program if you can’t stick to #1 above)  翻译program block 直接来自于 Synopsys 将 Vera 语言捐献给 SystemVerilog 的那部分内容，它试图模仿 PLI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SV NOTE05-program">
+<meta property="og:url" content="http://example.com/2025/09/08/SV-NOTE05-program/index.html">
 <meta property="og:site_name" content="芯领神会">
+<meta property="og:description" content="NOTE： Avoid program block Ensure you have a wait at the end of initial-block (inside program if you can’t stick to #1 above)  翻译program block 直接来自于 Synopsys 将 Vera 语言捐献给 SystemVerilog 的那部分内容，它试图模仿 PLI">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-09-08T10:45:03.000Z">
+<meta property="article:modified_time" content="2025-09-08T10:56:43.091Z">
 <meta property="article:author" content="Fanxin Meng">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2025/09/08/SV-NOTE05-program/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>芯领神会</title>
+  <title>SV NOTE05-program | 芯领神会</title>
   
 
 
@@ -139,9 +143,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -157,10 +162,9 @@
       <meta itemprop="name" content="芯领神会">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/09/08/SV-NOTE05-program/" class="post-title-link" itemprop="url">SV NOTE05-program</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          SV NOTE05-program
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -184,7 +188,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="NOTE："><a href="#NOTE：" class="headerlink" title="NOTE："></a>NOTE：</h3><ol>
+        <h3 id="NOTE："><a href="#NOTE：" class="headerlink" title="NOTE："></a>NOTE：</h3><ol>
 <li>Avoid program block</li>
 <li>Ensure you have a wait at the end of initial-block (inside program if you can’t stick to #1 above)</li>
 </ol>
@@ -211,375 +215,30 @@
 <p>If you have legacy Verilog testbench code, sometimes you want to share legacy BFM tasks by having your “class” based testbench call those BFM tasks. You’re going to run into nasty timing problems if that task was designed to be scheduled in the active region, and now is scheduled in the re-active. Sampling will be off by a clock cycle. You’ll have even nastier problems if some tasks are called from a program block, and other are still called from a module.<br>One person’s Design IP is another person’s Verification IP. At the system level (ESL), there is less of a distinction between models written to represent higher level abstractions of the design, versus part of a testbench. You can’t have differences in scheduling just because one time it’s called from a program, and another time it’s called from a module. Same problem with C code called from a program block or module.<br>Unless you’re an experienced Vera user, there is the unexpected surprise that your simulation exits immediately after the thread in your program block ends. Again this is an issue with mixing legacy testbenches, or mixed-language testbenches.<br>Most advanced users can barely understand the scheduling semantics of SystemVerilog even without using program blocks. Why introduce unnecessary complexity. Many other enviroments, like SystemC and VHDL have been in production for years without needing the kind of scheduling semantics the program block introduces. Quick quiz: How can you get an assertion pass and fail in the same time slot?<br>The SystemVerilog language has had many hands involved with its development, including yours and mine. I’m not dismissing anyone efforts, but sometimes you have to take a step back and realize how bloated the language has become. Just because some feature exists in the LRM doesn’t justify that it needs to be used. Let me tell you about virtual interfaces… 👿</p>
 <p>Dave Rich</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/09/03/SV-NOTE05-OOP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Fanxin Meng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芯领神会">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/09/03/SV-NOTE05-OOP/" class="post-title-link" itemprop="url">SV NOTE05-OOP</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2025-09-03 19:10:09 / 修改时间：21:15:25" itemprop="dateCreated datePublished" datetime="2025-09-03T19:10:09+08:00">2025-09-03</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><p>&ensp;&ensp;面向对象编程（OOP, Object Oriented Programming）是一种以“对象”为基本单元的编程范式，它将程序看作是现实世界事物的抽象模型，通过类、对象、封装、继承和多态等概念来组织代码，从而实现更接近自然运行模式的系统建模和开发。这种编程范式相对面向过程编程，通过将相关数据和函数捆绑到对象中，提高了代码的可重用性、可维护性和灵活性。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/09/03/SV-NOTE05-OOP/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/08/30/SV-NOTE04-interface/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Fanxin Meng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芯领神会">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/08/30/SV-NOTE04-interface/" class="post-title-link" itemprop="url">SV NOTE04-interface</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-08-30 10:07:21" itemprop="dateCreated datePublished" datetime="2025-08-30T10:07:21+08:00">2025-08-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-08-31 07:46:17" itemprop="dateModified" datetime="2025-08-31T07:46:17+08:00">2025-08-31</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><p>&ensp;&ensp;&ensp;&ensp;为了更方便地连接测试平台与DUT，sv提供了接口的方法。相对于Verilog端口的例化方式，接口大大简化了代码量，降低了编写错误的概率。可以简单的将接口理解为很多信号的集合，将很多信号线绑定成一捆粗的线缆。在接口内部，可以实现信号的同步，解决了DUT与测试平台的信号竞争问题，也可以实现各种通信协议，大大简化了DUT与测试平台之间的通信。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/08/30/SV-NOTE04-interface/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/09/03/SV-NOTE05-OOP/" rel="prev" title="SV NOTE05-OOP">
+      <i class="fa fa-chevron-left"></i> SV NOTE05-OOP
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/08/23/SV-NOTE03-coverage/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Fanxin Meng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芯领神会">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/08/23/SV-NOTE03-coverage/" class="post-title-link" itemprop="url">SV NOTE03-coverage</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-08-23 22:37:41" itemprop="dateCreated datePublished" datetime="2025-08-23T22:37:41+08:00">2025-08-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-08-26 22:38:03" itemprop="dateModified" datetime="2025-08-26T22:38:03+08:00">2025-08-26</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><p>&ensp;&ensp;&ensp;&ensp;跟踪芯片验证工作的进度，判断验证工作是否完整，衡量哪些设计已经被验证过的指标。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/08/23/SV-NOTE03-coverage/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/08/20/SV-NOTE02-constraint/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Fanxin Meng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芯领神会">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/08/20/SV-NOTE02-constraint/" class="post-title-link" itemprop="url">SV NOTE02-constraint</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-08-20 22:39:01" itemprop="dateCreated datePublished" datetime="2025-08-20T22:39:01+08:00">2025-08-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-08-22 22:58:08" itemprop="dateModified" datetime="2025-08-22T22:58:08+08:00">2025-08-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><p>&ensp;&ensp;&ensp;&ensp;使变量在我们的控制之下随机产生满足要求的数值，得到更有效的激励。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/08/20/SV-NOTE02-constraint/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/08/19/SV-NOTE01-Callback/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Fanxin Meng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芯领神会">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/08/19/SV-NOTE01-Callback/" class="post-title-link" itemprop="url">SV NOTE01-Callback</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2025-08-19 21:19:17" itemprop="dateCreated datePublished" datetime="2025-08-19T21:19:17+08:00">2025-08-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-08-22 21:39:02" itemprop="dateModified" datetime="2025-08-22T21:39:02+08:00">2025-08-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><p>&ensp;&ensp;&ensp;&ensp;提高测试平台的可复用性，修改少量代码即可完成对整个测试平台的重新部署。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/08/19/SV-NOTE01-Callback/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
@@ -632,6 +291,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#NOTE%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">NOTE：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BF%BB%E8%AF%91"><span class="nav-number">2.</span> <span class="nav-text">翻译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E6%96%87"><span class="nav-number">3.</span> <span class="nav-text">原文</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
