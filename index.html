@@ -170,7 +170,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2025-09-08 18:45:03 / 修改时间：18:56:43" itemprop="dateCreated datePublished" datetime="2025-09-08T18:45:03+08:00">2025-09-08</time>
+              <time title="创建时间：2025-09-08 18:45:03 / 修改时间：19:07:30" itemprop="dateCreated datePublished" datetime="2025-09-08T18:45:03+08:00">2025-09-08</time>
             </span>
 
           
@@ -188,29 +188,14 @@
 <li>Avoid program block</li>
 <li>Ensure you have a wait at the end of initial-block (inside program if you can’t stick to #1 above)</li>
 </ol>
-<h3 id="翻译"><a href="#翻译" class="headerlink" title="翻译"></a>翻译</h3><p>program block 直接来自于 Synopsys 将 Vera 语言捐献给 SystemVerilog 的那部分内容，它试图模仿 PLI 应用与 Verilog 仿真器交互时的调度语义。对于有 Vera 背景的人来说，program block 非常合理，并且确实帮助了从 Vera 过渡到 SV 的用户。但如果从零开始学习 SV，它们就只是一种额外的语言负担。</p>
-<p>谁能想到我们竟然会在同一种语言内部打“语言之战”呢！</p>
-<p>就我所知，单独使用 program block 只解决了测试平台（testbench）与 DUT 之间的两类竞争条件，而这两类问题仅用 clocking block 也能解决。</p>
-<p>顺序逻辑中错误地使用阻塞赋值：无论 testbench 与 DUT 之间是否有竞争，你的 DUT 内部都会存在竞争。</p>
-<p>组合门控时钟逻辑中错误地使用非阻塞赋值：同样，无论 testbench 与 DUT 之间是否有竞争，你的 DUT 内部都会存在竞争。</p>
-<p>作为用户，如果你不了解为什么这些会在 DUT 内部造成竞争，那么你在 testbench 中也会遇到同样的竞争，而 program block 并不能阻止这些问题。这就是所谓“无竞争 testbench”的虚假安全感所在。</p>
-<p>单独使用 clocking block 就能解决与 program block 相同的 testbench–DUT 竞争问题，此外它还能处理门级传播中由非零延迟偏差引起的竞争。其原理是通过输入偏移（input skew）进行采样，通过输出偏移（output skew）进行驱动。</p>
-<p>除了虚假的安全感，以及与 clocking block 的冗余之外，还有一些额外原因让我不推荐使用 program block：</p>
-<p>如果你有遗留的 Verilog testbench 代码，有时候希望基于 “class” 的 testbench 调用这些遗留的 BFM 任务。如果该任务原本是计划在 active region 调度，而现在却在 re-active 调度，你会遇到很糟糕的时序问题——采样会偏差一个时钟周期。如果有些任务从 program block 调用，而另一些任务仍然从 module 调用，问题会更严重。</p>
-<p>一个人的 Design IP 可能是另一个人的 Verification IP。在系统级（ESL）中，抽象层次更高的模型与 testbench 部分之间的界限并不明显。不能因为一次从 program 调用，另一次从 module 调用，就出现调度语义的差异。C 代码从 program block 或 module 调用时也会遇到相同的问题。</p>
-<p>除非你是经验丰富的 Vera 用户，否则当仿真在 program block 中的最后一个线程结束后立刻退出时，你会感到意外。这在混合遗留 testbench 或混合语言 testbench 中尤其麻烦。</p>
-<p>大多数高级用户即使不使用 program block 也很难完全理解 SystemVerilog 的调度语义，为什么还要引入不必要的复杂性呢？很多其他环境（如 SystemC 和 VHDL）已经使用多年，却从未需要 program block 引入的这种调度机制。快速小测验：如何在同一个时间槽里得到一个断言既通过又失败的结果？</p>
-<p>SystemVerilog 的发展过程中有很多人参与，包括你和我。我并不是否定任何人的努力，但有时候需要退一步认识到语言已经变得多么臃肿。某个特性仅仅因为写在 LRM 中，并不代表它就一定要被使用。让我再说说虚拟接口（virtual interface）的问题吧……</p>
-<h3 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h3><p>By Dave Rich<br>That’s a frequent SystemVerilog question I’m asked.</p>
-<p>Program blocks came directly from donation of the Vera language to SystemVerilog by Synopsys , and try to mimic the scheduling semantics that a PLI application has interacting with a Verilog simulator.  So coming from a Vera background, program blocks make perfect sense and do help people transitioning from Vera to SV. But looking at SV from scratch, they are just extra language baggage.</p>
-<p>Who would have ever thought we’d be having language wars within the same language! 😮</p>
-<p>As far as I can tell, a program block by itself only addresses two race conditions between the testbench and DUT, both of which are covered by using a clocking block by itself.</p>
-<p>Erroneous use of blocking assignments for sequential logic. You have a race within your DUT regardless of the race between your testbench and DUT.<br>Erroneous use of non-blocking assignments in combinational gated clock logic. You may have a race within your DUT regardless of the race between your testbench and DUT.<br>As a user, if you don’t understand why these create races within your DUT, you’re going to have the same races within your testbench, and there’s nothing a program block does that prevent races within your testbench. There lays the false sense of security of having a race-free testbench.</p>
-<p>Using a clocking block by itself takes care of the same testbench to DUT races that a program block addresses, plus it takes care of the races caused by non-zero delay skews introduced by gate-level propagation. It does this by the use of the input skews for sampling and output skews for driving.</p>
-<p>Now, in addition to the false sense of security, and the redundancy with clocking blocks, here are some additional reasons why I don’t recommend using program blocks</p>
-<p>If you have legacy Verilog testbench code, sometimes you want to share legacy BFM tasks by having your “class” based testbench call those BFM tasks. You’re going to run into nasty timing problems if that task was designed to be scheduled in the active region, and now is scheduled in the re-active. Sampling will be off by a clock cycle. You’ll have even nastier problems if some tasks are called from a program block, and other are still called from a module.<br>One person’s Design IP is another person’s Verification IP. At the system level (ESL), there is less of a distinction between models written to represent higher level abstractions of the design, versus part of a testbench. You can’t have differences in scheduling just because one time it’s called from a program, and another time it’s called from a module. Same problem with C code called from a program block or module.<br>Unless you’re an experienced Vera user, there is the unexpected surprise that your simulation exits immediately after the thread in your program block ends. Again this is an issue with mixing legacy testbenches, or mixed-language testbenches.<br>Most advanced users can barely understand the scheduling semantics of SystemVerilog even without using program blocks. Why introduce unnecessary complexity. Many other enviroments, like SystemC and VHDL have been in production for years without needing the kind of scheduling semantics the program block introduces. Quick quiz: How can you get an assertion pass and fail in the same time slot?<br>The SystemVerilog language has had many hands involved with its development, including yours and mine. I’m not dismissing anyone efforts, but sometimes you have to take a step back and realize how bloated the language has become. Just because some feature exists in the LRM doesn’t justify that it needs to be used. Let me tell you about virtual interfaces… 👿</p>
-<p>Dave Rich</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/09/08/SV-NOTE05-program/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
